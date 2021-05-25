@@ -1,0 +1,23 @@
+<idea-plugin>
+    <id>com.chordsoft.ginkgo-plugin</id>
+    <name>Ginkgo Extension</name>
+    <vendor email="arash.cordi@gmail.com" url="http://www.chordsoft.com">ChordSoft</vendor>
+
+    <description><![CDATA[
+    execute individual "It" and "Describe" blocks
+    ]]></description>
+
+    <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.go-capable</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <codeInsight.lineMarkerProvider language="go" implementationClass="com.chordsoft.extensions.GinkgoLineMarkerProvider"/>
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+</idea-plugin>
