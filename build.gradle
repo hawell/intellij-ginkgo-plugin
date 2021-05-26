@@ -19,7 +19,7 @@ dependencies {
 intellij {
     type 'IU'
     version '2020.2.4'
-    plugins 'org.jetbrains.plugins.go:202.6397.59'
+    plugins = ['org.jetbrains.plugins.go:202.8194.7']
 }
 
 runIde {
