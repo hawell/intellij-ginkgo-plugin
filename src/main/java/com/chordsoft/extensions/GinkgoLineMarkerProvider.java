@@ -16,8 +16,10 @@ public class GinkgoLineMarkerProvider implements LineMarkerProvider {
         Class<? extends PsiElement> e = element.getClass();
         Class<? extends PsiElement> p = element.getParent().getClass();
         if (element instanceof LeafPsiElement && element.getParent() instanceof GoReferenceExpression) {
-            if (element.textMatches("Describe") || element.textMatches("It")) {
-                return new LineMarkerInfo<>(element, element.getTextRange(), AllIcons.RunConfigurations.TestState.Run, null, null, GutterIconRenderer.Alignment.CENTER);
+            if (element.textMatches("Describe")) {
+                return new LineMarkerInfo<>(element, element.getTextRange(), AllIcons.Actions.RunAll, null, null, GutterIconRenderer.Alignment.CENTER);
+            } else if (element.textMatches("It")) {
+                return new LineMarkerInfo<>(element, element.getTextRange(), AllIcons.Actions.Execute, null, null, GutterIconRenderer.Alignment.CENTER);
             }
         }
         return null;
