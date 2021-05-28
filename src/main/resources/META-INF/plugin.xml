@@ -14,10 +14,14 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <codeInsight.lineMarkerProvider language="go" implementationClass="com.chordsoft.extensions.GinkgoLineMarkerProvider"/>
-        <!-- Add your extensions here -->
     </extensions>
 
     <actions>
-        <!-- Add your actions here -->
+        <group id="com.chordsoft.actions.GenerateTestGroup" class="com.chordsoft.actions.GinkgoGenerateTestGroup">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+            <separator/>
+            <action id="com.chordsoft.actions.BootstrapGinkgoSuit" text="Ginkgo Bootstrap Test Suit" class="com.chordsoft.actions.GinkgoBootstrapAction"/>
+            <action id="com.chordsoft.actions.GenerateGinkgoTest" text="Ginkgo Generate Test File" class="com.chordsoft.actions.GinkgoGenerateAction"/>
+        </group>
     </actions>
 </idea-plugin>
