@@ -1,10 +1,12 @@
 package com.chordsoft.actions;
 
 import com.chordsoft.utils.GinkgoCommandProvider;
+import com.chordsoft.utils.GinkgoNotifier;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.execution.process.ScriptRunnerUtil;
 import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
@@ -20,12 +22,15 @@ public class GinkgoBootstrapAction extends AnAction {
         GeneralCommandLine commandLine = new GeneralCommandLine(GinkgoCommandProvider.BootStrap(e.getProject()))
             .withParentEnvironmentType(GeneralCommandLine.ParentEnvironmentType.SYSTEM)
             .withWorkDirectory(directoryPath);
-        String output = "";
-        try {
-            output = ScriptRunnerUtil.getProcessOutput(commandLine);
-        } catch (ExecutionException executionException) {
-            executionException.printStackTrace();
-        }
+        ApplicationManager.getApplication().executeOnPooledThread(() -> {
+            String output = "";
+            try {
+                output = ScriptRunnerUtil.getProcessOutput(commandLine);
+            } catch (ExecutionException executionException) {
+                executionException.printStackTrace();
+            }
+            GinkgoNotifier.notify(e.getProject(), output);
+        });
     }
 
     @Override
