@@ -1,6 +1,10 @@
 package com.chordsoft.actions;
 
+import com.chordsoft.utils.GinkgoCommandProvider;
 import com.goide.GoFileType;
+import com.intellij.execution.ExecutionException;
+import com.intellij.execution.configurations.GeneralCommandLine;
+import com.intellij.execution.process.ScriptRunnerUtil;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataContext;
@@ -15,12 +19,19 @@ import org.jetbrains.annotations.Nullable;
 public class GinkgoGenerateAction extends AnAction {
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
-
-    }
-
-    @Override
-    public boolean isDumbAware() {
-        return super.isDumbAware();
+        @NotNull DataContext dataContext = e.getDataContext();
+        @Nullable PsiFile psiFile = (PsiFile) dataContext.getData(LangDataKeys.PSI_ELEMENT);
+        assert psiFile != null;
+        assert psiFile.getParent() != null;
+        GeneralCommandLine commandLine = new GeneralCommandLine(GinkgoCommandProvider.Generate(e.getProject(), psiFile.getName()))
+                .withParentEnvironmentType(GeneralCommandLine.ParentEnvironmentType.SYSTEM)
+                .withWorkDirectory(psiFile.getParent().getVirtualFile().getPath());
+        String output = "";
+        try {
+            output = ScriptRunnerUtil.getProcessOutput(commandLine);
+        } catch (ExecutionException executionException) {
+            executionException.printStackTrace();
+        }
     }
 
     @Override
